@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://*.supabase.co; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Compara tu situación laboral con la Ley Federal del Trabajo de México.">
+<title>Diagnóstico laboral · Ley Federal del Trabajo</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Ley Federal del Trabajo · México</p>
+    <h1>Diagnóstico laboral</h1>
+    <p class="sub">Responde 8 preguntas y revisa cómo se compara tu situación con la Ley Federal del Trabajo (LFT).</p>
+  </header>
+
+  <form class="card" id="f" novalidate>
+    <div class="q">
+      <label for="puesto">1. ¿Cuál es tu puesto o trabajo actual?</label>
+      <input id="puesto" maxlength="80" autocomplete="off" placeholder="Ej. Auxiliar administrativo">
+    </div>
+
+    <div class="q">
+      <label for="horas">2. ¿Cuántas horas trabajas al día?</label>
+      <small>Incluye las horas extra que haces de forma habitual. Jornada diurna máxima: 8 h.</small>
+      <input id="horas" type="number" inputmode="decimal" min="0.5" max="24" step="0.5" placeholder="8" aria-describedby="e-horas">
+      <div class="err" id="e-horas" role="alert"></div>
+    </div>
+
+    <fieldset class="q">
+      <legend>3. ¿Trabajas fines de semana?</legend>
+      <div class="opts">
+        <label><input type="radio" name="fin" value="no" checked>No</label>
+        <label><input type="radio" name="fin" value="sab">Solo sábados</label>
+        <label><input type="radio" name="fin" value="dom">Solo domingos</label>
+        <label><input type="radio" name="fin" value="ambos">Sábado y domingo</label>
+      </div>
+    </fieldset>
+
+    <div class="q">
+      <label for="sal">4. ¿De cuánto es tu salario?</label>
+      <small>Monto bruto (antes de descuentos).</small>
+      <div class="row">
+        <input id="sal" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Monto en MXN" aria-describedby="e-sal">
+        <select id="per" aria-label="Periodo de pago">
+          <option value="d">Diario</option>
+          <option value="q">Quincenal</option>
+          <option value="m" selected>Mensual</option>
+        </select>
+      </div>
+      <div class="err" id="e-sal" role="alert"></div>
+      <select id="zona" class="gap" aria-label="Zona salarial">
+        <option value="g">Zona del Salario Mínimo General (resto del país)</option>
+        <option value="f">Zona Libre de la Frontera Norte</option>
+      </select>
+    </div>
+
+    <fieldset class="q">
+      <legend>5. Si haces horas extra, ¿te las pagan?</legend>
+      <div class="opts">
+        <label><input type="radio" name="hx" value="si">Sí</label>
+        <label><input type="radio" name="hx" value="no">No</label>
+        <label><input type="radio" name="hx" value="nh" checked>No hago horas extra</label>
+      </div>
+    </fieldset>
+
+    <div class="q" id="qhx" hidden>
+      <label for="hxs">¿Cuántas horas extra haces por semana?</label>
+      <small>Opcional. Si lo dejas vacío se estima con tus horas diarias.</small>
+      <input id="hxs" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="Ej. 6" aria-describedby="e-hxs">
+      <div class="err" id="e-hxs" role="alert"></div>
+    </div>
+
+    <fieldset class="q">
+      <legend>6. ¿Tienes tiempo de descanso o comida durante tu jornada?</legend>
+      <div class="opts">
+        <label><input type="radio" name="des" value="si" checked>Sí</label>
+        <label><input type="radio" name="des" value="no">No</label>
+      </div>
+    </fieldset>
+
+    <div class="q" id="qdes">
+      <label for="min">7. ¿Cuánto dura tu descanso?</label>
+      <select id="min">
+        <option value="15">15 minutos</option>
+        <option value="30" selected>30 minutos</option>
+        <option value="45">45 minutos</option>
+        <option value="60">1 hora</option>
+        <option value="90">1 hora 30 min</option>
+        <option value="120">2 horas o más</option>
+      </select>
+    </div>
+
+    <fieldset class="q">
+      <legend>8. ¿Consideras que recibes buen trato en la empresa?</legend>
+      <div class="opts">
+        <label><input type="radio" name="tr" value="si" checked>Sí</label>
+        <label><input type="radio" name="tr" value="av">A veces</label>
+        <label><input type="radio" name="tr" value="no">No</label>
+      </div>
+    </fieldset>
+
+    <div class="err banner" id="e-gen" role="alert"></div>
+    <button class="go" id="go" type="submit">Ver mi diagnóstico</button>
+    <p class="privacy">Tus respuestas se guardan de forma anónima con fines académicos. No se solicita nombre, correo ni empresa, y el puesto que escribas no sale de tu navegador.</p>
+  </form>
+
+  <div id="out" tabindex="-1" aria-live="polite" hidden></div>
+
+  <p class="note">Herramienta orientativa, no constituye asesoría legal. La LFT puede tener reformas en transición (p. ej. sobre la jornada); verifica la versión vigente y consulta a la PROFEDET. Salarios mínimos 2026: $315.04 (general) y $440.87 (frontera norte) diarios.</p>
+</main>
+<script src="config.js"></script>
+<script src="app.js" defer></script>
+</body>
+</html>

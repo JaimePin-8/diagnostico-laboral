@@ -1,0 +1,6 @@
+project_id = "diagnostico-laboral"
+
+# Sin verificación de JWT: así el navegador no necesita ninguna llave.
+# La función se protege con validación estricta, CORS, límite por IP y RLS en la tabla.
+[functions.diagnosticar]
+verify_jwt = false
